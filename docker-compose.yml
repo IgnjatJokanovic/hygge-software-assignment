@@ -1,0 +1,40 @@
+version: '3'
+
+networks: 
+  laravel:
+
+services: 
+  apache:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: apache
+    ports: 
+      - "8080:80"
+    volumes: 
+      -  ./src:/var/www/project
+      - ./apache/site.conf:/etc/apache2/sites-enabled/000-default.conf
+    depends_on: 
+      - mysql
+    tty: true
+    networks: 
+      - laravel
+
+  mysql:
+    image: mysql:5.7.29
+    container_name: mysql
+    restart: unless-stopped
+    tty: true
+    ports: 
+     -  "4306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment: 
+      MYSQL_DATABASE: hygge
+      MYSQL_USER: ignjat
+      MYSQL_PASSWORD: ignjat
+      MYSQL_ROOT_PASSWORD: ignjat
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    networks: 
+      - laravel
