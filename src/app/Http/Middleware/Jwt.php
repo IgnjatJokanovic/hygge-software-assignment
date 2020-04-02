@@ -40,5 +40,5 @@ class Jwt
         }
         return $next($request);
         }
-    }
+    
 }
