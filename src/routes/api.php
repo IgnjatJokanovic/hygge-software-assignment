@@ -17,3 +17,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/test', function() {
+    return "Hello World";
+});
+
+Route::post('/register', 'UserController@store');
+Route::post('/login', 'UserController@login');
+Route::post('/friend-request', 'UserController@sendFriendRequest');
+Route::post('/friend-action', 'UserController@friendAction');
+
