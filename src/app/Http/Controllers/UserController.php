@@ -54,7 +54,6 @@ class UserController extends Controller
             return response()->json(["messages" => $errors], 422);
         }else{
             $token = auth()->attempt($credentials);
-            dd($token);
             if($token){
                 return response()->json(['token' => $token], 202);
             }else {
@@ -83,11 +82,10 @@ class UserController extends Controller
     public function friendAction(){
         $user = JWTAuth::parseToken()->authenticate();
         $sender = request()->id;
-        $tmp = $user->friends()->where('user_id', $sender)->first();
+        $tmp = $user->friendActions()->where('user_id', $sender)->first();
         $tmp->pivot->status = request()->action;
         $tmp->pivot->save();
-        return response()->json("Success", 201);
-       
+        return response()->json("Success", 201); 
     }
 
 }
